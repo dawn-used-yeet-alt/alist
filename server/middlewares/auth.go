@@ -42,7 +42,7 @@ func Auth(c *gin.Context) {
 			c.Abort()
 			return
 		}
-		if guest.Disabled {
+		if guest.Disabled && !c.GetBool("is_share_token_request") {
 			common.ErrorStrResp(c, "Guest user is disabled, login please", 401)
 			c.Abort()
 			return

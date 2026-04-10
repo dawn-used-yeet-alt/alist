@@ -23,6 +23,7 @@ func Init(e *gin.Engine) {
 	}
 	Cors(e)
 	e.Use(middlewares.SessionRefresh)
+	e.Use(middlewares.ShareTokenMiddleware())
 	g := e.Group(conf.URL.Path)
 	if conf.Conf.Scheme.HttpPort != -1 && conf.Conf.Scheme.HttpsPort != -1 && conf.Conf.Scheme.ForceHttps {
 		e.Use(middlewares.ForceHttps)
@@ -93,6 +94,7 @@ func Init(e *gin.Engine) {
 	public.Any("/settings", handles.PublicSettings)
 	public.Any("/offline_download_tools", handles.OfflineDownloadTools)
 	public.Any("/archive_extensions", handles.ArchiveExtensions)
+	public.GET("/share/redeem", handles.RedeemShare)
 
 	_fs(auth.Group("/fs"))
 	_task(auth.Group("/task", middlewares.AuthNotGuest))
@@ -191,6 +193,11 @@ func admin(g *gin.RouterGroup) {
 	session := g.Group("/session")
 	session.GET("/list", handles.ListSessions)
 	session.POST("/evict", handles.EvictSession)
+ 
+	share := g.Group("/share")
+	share.POST("/create", handles.CreateShare)
+	share.GET("/list", handles.ListShares)
+	share.POST("/delete/:id", handles.DeleteShare)
 
 }
 

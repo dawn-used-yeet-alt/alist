@@ -99,6 +99,9 @@ func FsList(c *gin.Context) {
 		common.ErrorResp(c, err, 403)
 		return
 	}
+	if !middlewares.EnforceShareTokenPath(c, reqPath) {
+		return
+	}
 	meta, err := op.GetNearestMeta(reqPath)
 	if err != nil {
 		if !errors.Is(errors.Cause(err), errs.MetaNotFound) {
@@ -346,6 +349,9 @@ func FsGet(c *gin.Context) {
 	reqPath, err := user.JoinPath(req.Path)
 	if err != nil {
 		common.ErrorResp(c, err, 403)
+		return
+	}
+	if !middlewares.EnforceShareTokenPath(c, reqPath) {
 		return
 	}
 	meta, err := op.GetNearestMeta(reqPath)
