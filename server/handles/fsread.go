@@ -15,6 +15,7 @@ import (
 	"github.com/alist-org/alist/v3/internal/sign"
 	"github.com/alist-org/alist/v3/pkg/utils"
 	"github.com/alist-org/alist/v3/server/common"
+	"github.com/alist-org/alist/v3/server/middlewares"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 )
