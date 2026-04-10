@@ -303,10 +303,12 @@ if [ "$1" = "dev" ]; then
     BuildDev
   fi
 elif [ "$1" = "release" -o "$1" = "beta" ]; then
-  if [ "$1" = "beta" ]; then
-    FetchWebDev
-  else
-    FetchWebRelease
+  if [ "$SKIP_WEB_FETCH" != "true" ]; then
+    if [ "$1" = "beta" ]; then
+      FetchWebDev
+    else
+      FetchWebRelease
+    fi
   fi
   if [ "$2" = "docker" ]; then
     BuildDocker

@@ -5,7 +5,8 @@ RUN apk add --no-cache bash curl gcc git go musl-dev
 COPY go.mod go.sum ./
 RUN go mod download
 COPY ./ ./
-RUN bash build.sh release docker
+ARG SKIP_WEB_FETCH=false
+RUN SKIP_WEB_FETCH=$SKIP_WEB_FETCH bash build.sh release docker
 
 FROM alpine:edge
 
