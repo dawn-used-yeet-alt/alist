@@ -48,6 +48,9 @@ func parsePath(path string) string {
 }
 
 func needSign(meta *model.Meta, path string) bool {
+	if strings.HasSuffix(strings.ToLower(path), "cover.jpg") || strings.HasSuffix(strings.ToLower(path), "details.json") {
+		return false
+	}
 	if setting.GetBool(conf.SignAll) {
 		return true
 	}
